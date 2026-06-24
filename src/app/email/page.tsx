@@ -143,6 +143,7 @@ export default function LiveEmailPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Send failed')
       setJobs(prev => prev.map(j => j.id === id ? { ...j, status: 'sent', sentAt: data.sentAt } : j))
+      const supabase = createClient()
       await auditLog(supabase, 'email_sent', {
         entity: 'email_job',
         entityId: id,
