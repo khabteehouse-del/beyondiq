@@ -17,6 +17,9 @@ export default function AmbientBackground({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Non-null assertion so TypeScript is happy inside nested functions
+    const c = canvas as HTMLCanvasElement
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     let width = 0
     let height = 0
@@ -24,10 +27,10 @@ export default function AmbientBackground({
     let points: Point[] = []
 
     function resize() {
-      width = canvas.clientWidth
-      height = canvas.clientHeight
-      canvas.width = Math.floor(width * dpr)
-      canvas.height = Math.floor(height * dpr)
+      width = c.clientWidth
+      height = c.clientHeight
+      c.width = Math.floor(width * dpr)
+      c.height = Math.floor(height * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       const count = Math.min(70, Math.max(26, Math.floor((width * height) / 24000)))
       points = Array.from({ length: count }, () => ({
